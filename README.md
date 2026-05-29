@@ -6,7 +6,7 @@ This package includes the `ezibreezy-social-scheduler` skill for social scheduli
 
 Tested with `@ezibreezy/cli >= 0.8.3`.
 
-Hosted MCP compatibility: `https://api.ezibreezy.com/mcp` with browser sign-in for OAuth-capable MCP clients. API-key auth is still available as a fallback for automation and older clients.
+Hosted MCP compatibility: `https://api.maevesocial.com/mcp` with browser sign-in for OAuth-capable MCP clients. API-key auth is still available as a fallback for automation and older clients.
 
 ## What This Installs
 
@@ -37,14 +37,14 @@ macOS / Linux:
 
 ```bash
 export EZIBREEZY_API_KEY="ezb_live_..."
-export EZIBREEZY_API_URL="https://api.ezibreezy.com"
+export EZIBREEZY_API_URL="https://api.maevesocial.com"
 ```
 
 PowerShell:
 
 ```powershell
 $env:EZIBREEZY_API_KEY="ezb_live_..."
-$env:EZIBREEZY_API_URL="https://api.ezibreezy.com"
+$env:EZIBREEZY_API_URL="https://api.maevesocial.com"
 ```
 
 Do not put raw API keys in URLs, prompts, git history, or shared chat.
@@ -54,7 +54,7 @@ Do not put raw API keys in URLs, prompts, git history, or shared chat.
 EziBreezy exposes a hosted MCP endpoint for agent-native tool calls:
 
 ```text
-https://api.ezibreezy.com/mcp
+https://api.maevesocial.com/mcp
 ```
 
 The plugin bundles the current MCP server config in `plugins/ezibreezy-agent/.mcp.json`, so installing the plugin in Claude Code or Codex auto-wires the server. Open your MCP client and choose **Authenticate** for EziBreezy. Your browser opens EziBreezy, asks for approval, and returns to the MCP client.
@@ -69,13 +69,13 @@ Codex `~/.codex/config.toml`:
 
 ```toml
 [mcp_servers.ezibreezy]
-url = "https://api.ezibreezy.com/mcp"
+url = "https://api.maevesocial.com/mcp"
 ```
 
 Claude Code:
 
 ```bash
-claude mcp add --transport http ezibreezy https://api.ezibreezy.com/mcp
+claude mcp add --transport http ezibreezy https://api.maevesocial.com/mcp
 ```
 
 Or a project `.mcp.json`:
@@ -85,7 +85,7 @@ Or a project `.mcp.json`:
   "mcpServers": {
     "ezibreezy": {
       "type": "http",
-      "url": "https://api.ezibreezy.com/mcp"
+      "url": "https://api.maevesocial.com/mcp"
     }
   }
 }
@@ -111,14 +111,14 @@ Codex fallback:
 
 ```toml
 [mcp_servers.ezibreezy]
-url = "https://api.ezibreezy.com/mcp"
+url = "https://api.maevesocial.com/mcp"
 bearer_token_env_var = "EZIBREEZY_API_KEY"
 ```
 
 Claude Code fallback:
 
 ```bash
-claude mcp add --transport http ezibreezy https://api.ezibreezy.com/mcp \
+claude mcp add --transport http ezibreezy https://api.maevesocial.com/mcp \
   --header "Authorization: Bearer $EZIBREEZY_API_KEY"
 ```
 
@@ -212,7 +212,7 @@ See `plugins/ezibreezy-agent/skills/ezibreezy-social-scheduler/references/mcp-to
 
 ## Links
 
-- API docs: https://api.ezibreezy.com/docs
-- Hosted MCP: https://api.ezibreezy.com/mcp
+- API docs: https://api.maevesocial.com/docs
+- Hosted MCP: https://api.maevesocial.com/mcp
 - CLI package: https://www.npmjs.com/package/@ezibreezy/cli
-- EziBreezy: https://ezibreezy.com
+- EziBreezy: https://maevesocial.com

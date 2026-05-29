@@ -5,7 +5,7 @@ Use this reference only when the current agent environment already has the hoste
 Hosted endpoint:
 
 ```text
-https://api.ezibreezy.com/mcp
+https://api.maevesocial.com/mcp
 ```
 
 Authentication:
