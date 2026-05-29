@@ -26,8 +26,9 @@ ezibreezy auth:whoami
 Credential precedence is:
 
 1. `--api-key`
-2. `EZIBREEZY_API_KEY`
-3. Stored CLI login token
+2. `--api-key-env <name>`
+3. `EZIBREEZY_API_KEY`
+4. Stored CLI login token
 
 For automation, prefer env vars. For local sessions, use:
 
@@ -37,6 +38,15 @@ ezibreezy auth:login
 
 Browser login tokens expire after 7 days and are stored per API URL.
 
+For workspace-scoped keys stored under a named environment variable, do not paste the key value into commands or chat. Pass the variable name:
+
+```bash
+ezibreezy --api-key-env EZIBREEZY_API_KEY_LILY_DIA_JEWELLERY_DEMO_KEY auth:status
+ezibreezy --api-key-env EZIBREEZY_API_KEY_LILY_DIA_JEWELLERY_DEMO_KEY media:labels:list --workspace <workspaceId>
+```
+
+When `--api-key-env` is provided, that named variable must exist. The CLI will not silently fall back to `EZIBREEZY_API_KEY`.
+
 For hosted MCP, first use the MCP client's **Authenticate** action. It should open EziBreezy in the browser, ask the user to approve access, and return to the MCP client. Browser-authenticated MCP has been validated with Codex and Claude Code.
 
 MCP access tokens last 6 hours and refresh through 90-day rotating refresh tokens. If an MCP client cannot refresh, was revoked, or asks for approval again, choose **Authenticate** again. Organization admins can revoke active AI tool connections in EziBreezy **Settings -> Developer**.
@@ -44,6 +54,8 @@ MCP access tokens last 6 hours and refresh through 90-day rotating refresh token
 If browser auth is not supported by the MCP client, use the API-key fallback. Set `EZIBREEZY_API_KEY` in the shell or client secret storage. Do not put the key in `.mcp.json`, `config.toml`, command history, screenshots, or chat.
 
 CLI login is separate. `ezibreezy auth:login` signs in the CLI only; it does not create an MCP token.
+
+If `ezibreezy --help` shows `media:tags:*` instead of `media:labels:*`, the globally installed CLI is stale. Upgrade `@ezibreezy/cli` or use the repo-local CLI (`pnpm --dir packages/cli dev ...`) until the global install is refreshed.
 
 ## Missing Workspace
 

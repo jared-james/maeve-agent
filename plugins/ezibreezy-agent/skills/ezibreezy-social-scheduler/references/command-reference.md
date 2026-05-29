@@ -31,6 +31,8 @@ ezibreezy integrations:options --workspace <workspaceId> --integration <integrat
 
 Use MCP `get_integration_options` when connected. Use CLI `integrations:options --json <file>` as the fallback when the option key needs input, such as YouTube region, location search, or Instagram catalog/product search.
 
+Current CLI media organization commands use `media:labels:*`. If a global install shows `media:tags:*`, that install is stale; upgrade `@ezibreezy/cli` or use the repo-local CLI before continuing.
+
 ## Safe Reads
 
 These commands read state and are usually safe to run after auth/workspace discovery:
