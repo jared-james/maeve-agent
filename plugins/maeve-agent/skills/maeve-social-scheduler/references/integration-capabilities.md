@@ -16,19 +16,19 @@ Quick-glance reference for the live capability catalog in `src/integrations/inte
 List integrations:
 
 ```bash
-ezibreezy integrations:list --workspace <workspaceId>
+maeve integrations:list --workspace <workspaceId>
 ```
 
 Get safe publishing requirements:
 
 ```bash
-ezibreezy integrations:capabilities --workspace <workspaceId> --integration <integrationId>
+maeve integrations:capabilities --workspace <workspaceId> --integration <integrationId>
 ```
 
 Fetch dynamic options returned by capabilities. Prefer MCP `get_integration_options` when connected; use the CLI fallback when MCP is unavailable:
 
 ```bash
-ezibreezy integrations:options --workspace <workspaceId> --integration <integrationId> --key <optionKey>
+maeve integrations:options --workspace <workspaceId> --integration <integrationId> --key <optionKey>
 ```
 
 Use `--json <file>` for option bodies:
@@ -124,8 +124,8 @@ Fetch flow for products:
 
 ```bash
 # MCP preferred: call get_integration_options with optionKey instagram-catalogs, then instagram-products.
-ezibreezy integrations:options --workspace <workspaceId> --integration <integrationId> --key instagram-catalogs
-ezibreezy integrations:options --workspace <workspaceId> --integration <integrationId> --key instagram-products --json product-options.json
+maeve integrations:options --workspace <workspaceId> --integration <integrationId> --key instagram-catalogs
+maeve integrations:options --workspace <workspaceId> --integration <integrationId> --key instagram-products --json product-options.json
 ```
 
 ### Facebook And Facebook Page

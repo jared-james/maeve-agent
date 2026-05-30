@@ -1,6 +1,6 @@
 # Safety Policy
 
-Use this policy before EziBreezy mutations.
+Use this policy before Maeve mutations.
 
 ## Default Policy
 
@@ -19,7 +19,7 @@ Use this policy before EziBreezy mutations.
 - Never delete content, failed inbox messages, grid items, media, media folders/labels, or hashtag groups without confirmation.
 - Always inspect integration capabilities before setting platform-specific fields.
 - Always inspect dynamic options when a capability field includes `optionKey`.
-- Always upload local media through EziBreezy before attaching it to posts.
+- Always upload local media through Maeve before attaching it to posts.
 - Always return created/changed IDs and status after mutations.
 - Treat API keys, CLI login tokens, bearer tokens, refresh tokens, presigned URLs, and raw provider payloads as sensitive.
 
@@ -62,11 +62,11 @@ Some risky commands do not require `--yes`; the agent still must confirm them.
 
 ## Credential Handling
 
-- Prefer `EZIBREEZY_API_KEY` and `EZIBREEZY_API_URL` environment variables for automation.
+- Prefer `MAEVE_API_KEY` and `MAEVE_API_URL` environment variables for automation.
 - For hosted MCP, prefer the MCP client's browser authentication flow. Browser-authenticated MCP has been validated with Codex and Claude Code.
-- Use `EZIBREEZY_API_KEY` for MCP only when browser authentication is not supported or for server-side automation.
+- Use `MAEVE_API_KEY` for MCP only when browser authentication is not supported or for server-side automation.
 - Do not use stored browser CLI tokens as the MCP auth path.
-- Browser-approved MCP grants can be revoked in EziBreezy **Settings -> Developer**.
+- Browser-approved MCP grants can be revoked in Maeve **Settings -> Developer**.
 - Prefer browser login for local human sessions.
 - Do not ask the user to paste API keys, CLI login tokens, OAuth codes, bearer tokens, refresh tokens, presigned URLs, provider tokens, scopes, or raw provider payloads into chat.
 - Do not print token values from files or command output.

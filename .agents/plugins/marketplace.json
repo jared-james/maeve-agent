@@ -1,14 +1,14 @@
 {
-  "name": "ezibreezy-agent",
+  "name": "maeve-agent",
   "interface": {
-    "displayName": "EziBreezy Agent"
+    "displayName": "Maeve Agent"
   },
   "plugins": [
     {
-      "name": "ezibreezy-agent",
+      "name": "maeve-agent",
       "source": {
         "source": "local",
-        "path": "./plugins/ezibreezy-agent"
+        "path": "./plugins/maeve-agent"
       },
       "policy": {
         "installation": "AVAILABLE",

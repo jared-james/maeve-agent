@@ -1,0 +1,7 @@
+interface:
+  display_name: "Maeve Social Scheduler"
+  short_description: "Automate Maeve social workflows safely"
+  brand_color: "#2563EB"
+  default_prompt: "Use $maeve-social-scheduler to discover my Maeve workspace, inspect connected integrations, and create a draft social post using connected MCP tools when available or the CLI fallback otherwise."
+policy:
+  allow_implicit_invocation: true

@@ -21,7 +21,7 @@ Curated from CLI schemas and `packages/cli/README.md`.
 - Use UUID strings for workspace, integration, content, media, approver, batch, folder, label, pillar, format, campaign, and campaign phase IDs.
 - Grid planner IDs must be UUIDv4 strings.
 - Use ISO 8601 timestamps with explicit timezone for scheduling, for example `2026-05-01T10:00:00+10:00` or `2026-05-01T00:00:00Z`.
-- Upload local media through EziBreezy first, then attach it with `contentMedia[].mediaId`.
+- Upload local media through Maeve first, then attach it with `contentMedia[].mediaId`.
 - Base content create/update targets one `integrationId` and one integration-scoped content row. Multi-platform composition should fan out to separate grouped rows.
 - For drafts, omit `intent` or include `intent: "draft"`.
 - `content:update` uses the create-content shape except `intent`, and at least one field must be present.
@@ -150,7 +150,7 @@ Use `postType: "thread"` only when the integration capabilities support threads.
 CLI command:
 
 ```bash
-ezibreezy content:schedule --workspace <workspaceId> --id <contentId> --scheduled-at "2026-05-01T10:00:00+10:00"
+maeve content:schedule --workspace <workspaceId> --id <contentId> --scheduled-at "2026-05-01T10:00:00+10:00"
 ```
 
 Equivalent payload shape:
@@ -166,7 +166,7 @@ Equivalent payload shape:
 Publishing uses an existing content ID, not a JSON payload:
 
 ```bash
-ezibreezy content:publish --workspace <workspaceId> --id <contentId> --yes
+maeve content:publish --workspace <workspaceId> --id <contentId> --yes
 ```
 
 Confirm first because this is externally visible. The CLI requires `--yes` for publish-now.
@@ -176,7 +176,7 @@ Confirm first because this is externally visible. The CLI requires `--yes` for p
 This edits the provider caption for an already-published Facebook item:
 
 ```bash
-ezibreezy content:published-caption --workspace <workspaceId> --id <contentId> --json published-caption.json --yes
+maeve content:published-caption --workspace <workspaceId> --id <contentId> --json published-caption.json --yes
 ```
 
 Payload shape:
@@ -194,7 +194,7 @@ Confirm first because this changes externally visible provider content. The CLI 
 Upload files first:
 
 ```bash
-ezibreezy media:upload ./image.png --workspace <workspaceId>
+maeve media:upload ./image.png --workspace <workspaceId>
 ```
 
 Supported upload extensions:

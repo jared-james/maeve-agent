@@ -1,28 +1,28 @@
 ---
-name: ezibreezy-social-scheduler
-description: Operate EziBreezy social scheduling, publishing, content management, media library, approvals, analytics, inbox, grid planner, hashtags, taxonomy, and EziBreezy CLI/API automation. Use when an agent needs to discover EziBreezy workspaces or integrations, create drafts, schedule posts, publish content, manage media, inspect analytics, handle approvals or client reviews, process inbox work, or automate social operations safely through EziBreezy.
+name: maeve-social-scheduler
+description: Operate Maeve social scheduling, publishing, content management, media library, approvals, analytics, inbox, grid planner, hashtags, taxonomy, and Maeve CLI/API automation. Use when an agent needs to discover Maeve workspaces or integrations, create drafts, schedule posts, publish content, manage media, inspect analytics, handle approvals or client reviews, process inbox work, or automate social operations safely through Maeve.
 ---
 
-# EziBreezy Social Scheduler
+# Maeve Social Scheduler
 
-Use this skill to operate EziBreezy safely through the repo-supported automation surface.
+Use this skill to operate Maeve safely through the repo-supported automation surface.
 
 ## Operating Order
 
-1. If the hosted EziBreezy MCP server is already connected in the current agent environment, start supported reads with MCP tools such as `list_workspaces` instead of opening the CLI path first.
-2. Run `ezibreezy auth:status` before CLI or direct API fallback work.
-3. Prefer the EziBreezy CLI when MCP is not connected, when the workflow is not covered by MCP, or when local files/full CLI behavior are needed.
+1. If the hosted Maeve MCP server is already connected in the current agent environment, start supported reads with MCP tools such as `list_workspaces` instead of opening the CLI path first.
+2. Run `maeve auth:status` before CLI or direct API fallback work.
+3. Prefer the Maeve CLI when MCP is not connected, when the workflow is not covered by MCP, or when local files/full CLI behavior are needed.
 4. Use direct public API calls only when MCP and the CLI cannot perform the task.
-5. Prefer the MCP client's browser authentication when MCP is available. Use environment credentials such as `EZIBREEZY_API_KEY` for CLI/API automation or MCP fallback. Never ask users to paste API keys, login tokens, OAuth codes, presigned URLs, or raw provider payloads into chat.
+5. Prefer the MCP client's browser authentication when MCP is available. Use environment credentials such as `MAEVE_API_KEY` for CLI/API automation or MCP fallback. Never ask users to paste API keys, login tokens, OAuth codes, presigned URLs, or raw provider payloads into chat.
 
 ## Discovery Workflow
 
 Before creating, scheduling, publishing, or updating content:
 
-1. Identify the workspace with `ezibreezy workspaces:list` or the user-provided workspace ID.
-2. Identify the integration with `ezibreezy integrations:list --workspace <id>`.
-3. Inspect platform requirements with `ezibreezy integrations:capabilities --workspace <id> --integration <id>`.
-4. If a capability field includes a dynamic option key, fetch options with MCP `get_integration_options` when connected, or `ezibreezy integrations:options` as the CLI fallback.
+1. Identify the workspace with `maeve workspaces:list` or the user-provided workspace ID.
+2. Identify the integration with `maeve integrations:list --workspace <id>`.
+3. Inspect platform requirements with `maeve integrations:capabilities --workspace <id> --integration <id>`.
+4. If a capability field includes a dynamic option key, fetch options with MCP `get_integration_options` when connected, or `maeve integrations:options` as the CLI fallback.
 5. Inspect existing media, taxonomy, hashtags, content, analytics, inbox, or grid planner state as needed for the requested workflow.
 
 ## Mutation Defaults
@@ -31,7 +31,7 @@ Before creating, scheduling, publishing, or updating content:
 - When MCP is connected, use `create_draft_content` for supported draft creation after workspace, integration, capabilities, and needed options are resolved; use CLI `content:create` as the fallback.
 - Do not schedule unless the user provides an explicit date, time, and timezone.
 - Do not publish immediately unless the user explicitly requests publish-now behavior in the current task.
-- Upload or select media through EziBreezy before attaching it to content.
+- Upload or select media through Maeve before attaching it to content.
 - Inspect integration capabilities before platform-specific settings, and inspect dynamic options when a capability field includes `optionKey`.
 - Return created or changed IDs, workspace, integration, status, scheduled time, and the next review step after every mutation.
 
