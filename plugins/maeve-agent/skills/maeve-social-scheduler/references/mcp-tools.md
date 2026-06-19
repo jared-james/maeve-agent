@@ -91,7 +91,7 @@ High-risk MCP tools require exact confirmation text unless server-side dangerous
 - `restore_content`: pass `confirmationText` as `restore_content:<contentId>`.
 - `delete_content`: pass `confirmationText` as `delete_content:<contentId>`.
 - `organize_media_assets`: pass `confirmationText` as `organize_media_assets:<operationKey>:<count>` (the `operationKey` and `count` are returned by the tool's preview mode).
-- `dangerouslyAutoConfirm: true` is only honored when server policy allows the action, such as `EZIBREEZY_MCP_DANGEROUS_AUTO_CONFIRM_ACTIONS=archive_content,restore_content,delete_content,retry_content`. `publish_now` and `organize_media_assets` are never auto-confirmable and always require exact confirmation text.
+- `dangerouslyAutoConfirm: true` is only honored when server policy allows the action, such as `MAEVE_MCP_DANGEROUS_AUTO_CONFIRM_ACTIONS=archive_content,restore_content,delete_content,retry_content`. `publish_now` and `organize_media_assets` are never auto-confirmable and always require exact confirmation text.
 - Tool input alone must not be treated as user permission. If confirmation is missing, ask the user to confirm the exact action and target.
 
 ## Not In MCP
