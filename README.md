@@ -4,13 +4,13 @@ Installable agent skills and plugins for safely operating Maeve through the publ
 
 This package includes the `maeve-social-scheduler` skill for social scheduling, publishing, content management, media library work, approvals, analytics, inbox, grid planning, hashtags, taxonomy, and automation workflows.
 
-Tested with `maeve-cli >= 0.8.3`.
+Tested with `maeve-cli >= 0.10.1`.
 
 Hosted MCP compatibility: `https://api.maevesocial.com/mcp` with browser sign-in for OAuth-capable MCP clients. API-key auth is still available as a fallback for automation and older clients.
 
 ## What This Installs
 
-- A portable Agent Skills-standard skill at `skills/maeve-social-scheduler`.
+- A portable Agent Skills-standard skill at `plugins/maeve-agent/skills/maeve-social-scheduler`.
 - A Codex plugin manifest for installing the skill in Codex.
 - A Claude Code plugin manifest and marketplace for installing the skill in Claude Code.
 
@@ -19,8 +19,8 @@ The plugin is CLI-first by default. MCP can be connected separately for clients 
 ## Prerequisites
 
 - Node.js 22 or newer.
-- An Maeve account with access to at least one workspace.
-- For CLI use: either an Maeve API key or a browser-approved CLI login.
+- A Maeve account with access to at least one workspace.
+- For CLI use: either a Maeve API key or a browser-approved CLI login.
 - For MCP use: an MCP client that supports browser authentication, or an API key for fallback setup.
 
 Check the CLI:
