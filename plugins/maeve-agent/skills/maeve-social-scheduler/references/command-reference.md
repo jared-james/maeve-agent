@@ -64,7 +64,27 @@ maeve inbox:threads --workspace <workspaceId>
 maeve inbox:messages --workspace <workspaceId> --thread <threadId>
 maeve inbox:stats --workspace <workspaceId>
 maeve grid:list --workspace <workspaceId> --integration <integrationId>
+maeve media:usage-history --workspace <workspaceId> --id <mediaId>
+maeve media:labels:usage --workspace <workspaceId>
+maeve media:labels:health --workspace <workspaceId>
+maeve media:label-groups:list --workspace <workspaceId>
+maeve campaigns:list --workspace <workspaceId> --include-phases
+maeve campaigns:get --workspace <workspaceId> --id <campaignId>
+maeve campaigns:content --workspace <workspaceId> --id <campaignId>
+maeve campaigns:phases:list --workspace <workspaceId> --id <campaignId>
+maeve strategy:foundation --workspace <workspaceId>
+maeve strategy:goals --workspace <workspaceId>
+maeve strategy:goals:metrics --workspace <workspaceId>
+maeve strategy:goal --workspace <workspaceId> --id <goalId>
+maeve boosts:list --workspace <workspaceId>
+maeve boosts:get --workspace <workspaceId> --id <boostId>
+maeve boosts:performance --workspace <workspaceId> --id <boostId>
+maeve boosts:ad-accounts --workspace <workspaceId> --integration <integrationId>
+maeve boosts:boosted-content-ids --workspace <workspaceId>
+maeve boosts:by-content --workspace <workspaceId> --content <contentId>
 ```
+
+Campaigns and strategy reads are general workspace context. Boost reads require a standard plan; the CLI exposes boost reads only, because boost writes spend ad budget.
 
 Agency-plan reads:
 
@@ -86,9 +106,10 @@ Prefer draft creation unless the user explicitly asks to schedule or publish:
 maeve content:create --workspace <workspaceId> --json create-content.json
 maeve content:update --workspace <workspaceId> --id <contentId> --json update-content.json
 maeve content:notes --workspace <workspaceId> --id <contentId> --notes "<p>Planning notes</p>"
-maeve content:workflow --workspace <workspaceId> --id <contentId> --status drafting
 maeve media:upload ./image.png --workspace <workspaceId>
 maeve media:update --workspace <workspaceId> --id <mediaId> --json media-update.json
+maeve media:restore --workspace <workspaceId> --id <mediaId>
+maeve media:bulk-restore --workspace <workspaceId> --json media-ids.json
 maeve media:folders:create --workspace <workspaceId> --json media-folder.json
 maeve media:folders:update --workspace <workspaceId> --id <folderId> --json media-folder.json
 maeve media:folders:move --workspace <workspaceId> --id <folderId> --json media-folder-move.json
@@ -96,6 +117,19 @@ maeve media:labels:create --workspace <workspaceId> --json media-label.json
 maeve media:labels:update --workspace <workspaceId> --id <labelId> --json media-label.json
 maeve media:labels:attach --workspace <workspaceId> --id <mediaId> --json media-label-ids.json
 maeve media:labels:detach --workspace <workspaceId> --id <mediaId> --json media-label-ids.json
+maeve media:labels:archive --workspace <workspaceId> --id <labelId>
+maeve media:labels:restore --workspace <workspaceId> --id <labelId>
+maeve media:labels:merge --workspace <workspaceId> --id <sourceLabelId> --json media-label-merge.json
+maeve media:label-groups:create --workspace <workspaceId> --json label-group.json
+maeve media:label-groups:update --workspace <workspaceId> --id <groupId> --json label-group.json
+maeve media:label-groups:reorder --workspace <workspaceId> --json label-group-order.json
+maeve media:label-groups:add-labels --workspace <workspaceId> --id <groupId> --json label-ids.json
+maeve media:label-groups:ungroup-labels --workspace <workspaceId> --json label-ids.json
+maeve campaigns:create --workspace <workspaceId> --json campaign.json
+maeve campaigns:update --workspace <workspaceId> --id <campaignId> --json campaign.json
+maeve campaigns:phases:create --workspace <workspaceId> --id <campaignId> --json campaign-phase.json
+maeve campaigns:phases:replace --workspace <workspaceId> --id <campaignId> --json campaign-phases.json
+maeve campaigns:phases:update --workspace <workspaceId> --id <campaignId> --phase-id <phaseId> --json campaign-phase.json
 maeve hashtags:create --workspace <workspaceId> --json hashtags.json
 maeve hashtags:update --workspace <workspaceId> --id <hashtagGroupId> --json hashtags.json
 maeve inbox:note --workspace <workspaceId> --thread <threadId> --json inbox-note.json
@@ -104,6 +138,8 @@ maeve grid:update --workspace <workspaceId> --item <itemId> --json grid-update.j
 maeve grid:replace-media --workspace <workspaceId> --item <itemId> --json grid-media.json
 maeve grid:set-cover --workspace <workspaceId> --item <itemId> --json grid-cover.json
 ```
+
+There is no CLI command to set a content workflow status (idea, drafting, and so on); that is set in the app. The CLI only filters by it, with `content:list --workflow-status` / `--workflow-statuses`.
 
 ## Scheduling And Publishing
 
@@ -131,16 +167,25 @@ maeve media:archive --workspace <workspaceId> --id <mediaId>
 maeve media:delete --workspace <workspaceId> --id <mediaId>
 maeve media:folders:delete --workspace <workspaceId> --id <folderId>
 maeve media:labels:delete --workspace <workspaceId> --id <labelId>
+maeve media:label-groups:delete --workspace <workspaceId> --id <groupId> --json label-group-delete.json
 maeve media:bulk-archive --workspace <workspaceId> --json media-ids.json
 maeve media:bulk-move --workspace <workspaceId> --json media-bulk-move.json
 maeve media:bulk-label --workspace <workspaceId> --json media-bulk-labels.json
 maeve media:bulk-unlabel --workspace <workspaceId> --json media-bulk-labels.json
+maeve campaigns:archive --workspace <workspaceId> --id <campaignId>
+maeve campaigns:restore --workspace <workspaceId> --id <campaignId>
 maeve hashtags:delete --workspace <workspaceId> --id <hashtagGroupId>
 maeve inbox:read --workspace <workspaceId> --thread <threadId>
 maeve inbox:unread --workspace <workspaceId> --thread <threadId>
+maeve inbox:resolve --workspace <workspaceId> --thread <threadId>
+maeve inbox:reopen --workspace <workspaceId> --thread <threadId>
+maeve inbox:resolve-message --workspace <workspaceId> --message <messageId>
+maeve inbox:reopen-message --workspace <workspaceId> --message <messageId>
 maeve grid:reorder --workspace <workspaceId> --json grid-reorder.json
 maeve grid:remove-cover --workspace <workspaceId> --item <itemId>
 ```
+
+`media:label-groups:delete` takes `{ "mode": "archive-labels" }` or `{ "mode": "ungroup-labels" }` to say what happens to the labels in the group.
 
 CLI-enforced `--yes`:
 
@@ -148,7 +193,11 @@ CLI-enforced `--yes`:
 maeve content:publish --workspace <workspaceId> --id <contentId> --yes
 maeve content:published-caption --workspace <workspaceId> --id <contentId> --json published-caption.json --yes
 maeve media:bulk-delete --workspace <workspaceId> --json media-ids.json --yes
+maeve media:delete-permanent --workspace <workspaceId> --id <mediaId> --yes
+maeve media:bulk-delete-forever --workspace <workspaceId> --json media-ids.json --yes
+maeve campaigns:phases:delete --workspace <workspaceId> --id <campaignId> --phase-id <phaseId> --yes
 maeve inbox:read-all --workspace <workspaceId> --json inbox-read-all.json --yes
+maeve inbox:resolve-all --workspace <workspaceId> --json inbox-resolve-all.json --yes
 maeve inbox:reply --workspace <workspaceId> --thread <threadId> --json inbox-reply.json --yes
 maeve inbox:moderate --workspace <workspaceId> --message <messageId> --json inbox-moderate.json --yes
 maeve inbox:retry-message --workspace <workspaceId> --message <messageId> --yes
@@ -255,7 +304,7 @@ Goal: create or edit content safely, defaulting to draft.
 7. Schedule only when date, time, and timezone are explicit:
    `content:schedule --scheduled-at "2026-05-01T10:00:00+10:00"`.
 8. Use `content:intended-time` only when the user wants a planned publish time without scheduling.
-9. Set workflow state only to `idea` or `drafting` with `content:workflow`.
+9. Workflow status (idea, drafting, and so on) is set in the app, not the CLI; the CLI only filters by it with `content:list --workflow-status`.
 10. Return content ID, status, workflow status if known, workspace, integration, scheduled time, media IDs, and next review step.
 
 ### Publishing Workflow
