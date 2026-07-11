@@ -1,6 +1,6 @@
 # Content Payloads
 
-Curated from CLI schemas and `packages/cli/README.md`.
+Curated from the `maeve-cli` payload schemas. The CLI validates payloads strictly; unknown fields are rejected.
 
 ## Contents
 

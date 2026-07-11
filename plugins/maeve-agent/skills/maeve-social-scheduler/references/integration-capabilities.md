@@ -1,6 +1,6 @@
 # Integration Capabilities
 
-Quick-glance reference for the live capability catalog in `src/integrations/integration-capability-catalog.ts`.
+Quick-glance reference for the live capability catalog returned by `integrations:capabilities`.
 
 ## Contents
 

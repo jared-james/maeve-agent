@@ -27,13 +27,14 @@ Use this policy before Maeve mutations.
 
 Ask for confirmation immediately before:
 
-- `content:publish`, `content:retry`, `content:archive`, `content:restore`, `content:delete`.
+- `content:publish`, `content:published-caption`, `content:retry`, `content:archive`, `content:restore`, `content:delete`.
+- `content:recurring-occurrence:cancel`, `content:recurring-series:cancel`.
 - `content:schedule` if the requested date/time/timezone or target integration is ambiguous.
 - `content:request-approval`, `content:resubmit`, `content:withdraw`, `content:reopen-client-review`.
 - `client-reviews:send`, `client-reviews:resend`, `client-reviews:cancel`, `client-reviews:override`.
-- `inbox:reply`, `inbox:moderate`, `inbox:retry-message`, `inbox:delete-failed`, `inbox:read-all`.
-- `media:delete`, `media:bulk-delete`, `media:bulk-archive`, `media:bulk-move`, `media:bulk-label`, `media:bulk-unlabel`.
-- `media:folders:delete`, `media:labels:delete`, `hashtags:delete`.
+- `inbox:reply`, `inbox:moderate`, `inbox:retry-message`, `inbox:delete-failed`, `inbox:read-all`, `inbox:resolve-all`, `inbox:tags:delete`.
+- `media:delete`, `media:delete-permanent`, `media:bulk-delete`, `media:bulk-delete-forever`, `media:bulk-archive`, `media:bulk-move`, `media:bulk-label`, `media:bulk-unlabel`.
+- `media:folders:delete`, `media:labels:delete`, `media:label-groups:delete`, `hashtags:delete`.
 - `grid:delete`, `grid:promote`, `grid:reorder`, `grid:remove-cover`.
 - `analytics:report`.
 
@@ -43,18 +44,27 @@ The confirmation prompt should include action, IDs, workspace, integration, sche
 
 Only append `--yes` after confirmation for:
 
+- `content:create` when the payload has `intent: "publish_now"`
 - `content:request-approval`
 - `content:resubmit`
 - `content:publish`
+- `content:published-caption`
+- `content:recurring-occurrence:cancel`
+- `content:recurring-series:cancel`
 - `client-reviews:send`
 - `client-reviews:resend`
+- `campaigns:phases:delete`
 - `analytics:report`
 - `inbox:read-all`
+- `inbox:resolve-all`
 - `inbox:reply`
 - `inbox:moderate`
 - `inbox:retry-message`
 - `inbox:delete-failed`
+- `inbox:tags:delete`
 - `media:bulk-delete`
+- `media:delete-permanent`
+- `media:bulk-delete-forever`
 - `grid:delete`
 - `grid:promote`
 

@@ -10,7 +10,7 @@ Use this when CLI commands fail or return validation/provider errors.
 - JSON Validation Errors
 - Timezone Errors
 - Platform Requirement Errors
-- Agency Plan Or Role Errors
+- Plan Or Role Errors
 - Rate Limits And Provider Errors
 - Output And Debugging
 
@@ -55,7 +55,7 @@ If browser auth is not supported by the MCP client, use the API-key fallback. Se
 
 CLI login is separate. `maeve auth:login` signs in the CLI only; it does not create an MCP token.
 
-If `maeve --help` shows `media:tags:*` instead of `media:labels:*`, the globally installed CLI is stale. Upgrade `maeve-cli` or use the repo-local CLI (`pnpm --dir packages/cli dev ...`) until the global install is refreshed.
+If `maeve --help` shows `media:tags:*` instead of `media:labels:*`, the globally installed CLI is stale. Upgrade with `npm install -g maeve-cli@latest`, or run commands through `npx maeve-cli@latest` until the global install is refreshed.
 
 ## Missing Workspace
 
@@ -135,11 +135,11 @@ Known strict cases:
 - TikTok requires media, `publishTitle`, and account-specific privacy options.
 - Instagram requires media.
 
-## Agency Plan Or Role Errors
+## Plan Or Role Errors
 
-Approval history, client reviews, approval decisions/comments, pending approval counts, and analytics PDF reports can require an agency workspace plan and specific roles.
+Approval history, client reviews, approval decisions/comments, pending approval counts, boosts, and analytics PDF reports require a standard workspace plan and specific roles.
 
-If the command says agency-plan only or role denied, report the plan/role blocker and do not retry with different payloads unless the user changes workspace/account.
+If the command says it requires a plan or the role is denied, report the plan/role blocker and do not retry with different payloads unless the user changes workspace/account.
 
 ## Rate Limits And Provider Errors
 

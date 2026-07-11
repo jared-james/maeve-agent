@@ -1,6 +1,6 @@
 # Command Reference
 
-Curated from `packages/cli/README.md` and `packages/cli/src/commands/*`.
+Curated from the `maeve-cli` command surface. Verify anything uncertain with `npx maeve-cli --help` or `maeve <command> --help`.
 
 ## Contents
 
@@ -30,8 +30,6 @@ maeve integrations:options --workspace <workspaceId> --integration <integrationI
 ```
 
 Use MCP `get_integration_options` when connected. Use CLI `integrations:options --json <file>` as the fallback when the option key needs input, such as YouTube region, location search, or Instagram catalog/product search.
-
-Current CLI media organization commands use `media:labels:*`. If a global install shows `media:tags:*`, that install is stale; upgrade `maeve-cli` or use the repo-local CLI before continuing.
 
 ## Safe Reads
 
@@ -63,6 +61,7 @@ maeve analytics:demographics --workspace <workspaceId> --integration <integratio
 maeve inbox:threads --workspace <workspaceId>
 maeve inbox:messages --workspace <workspaceId> --thread <threadId>
 maeve inbox:stats --workspace <workspaceId>
+maeve inbox:tags --workspace <workspaceId>
 maeve grid:list --workspace <workspaceId> --integration <integrationId>
 maeve media:usage-history --workspace <workspaceId> --id <mediaId>
 maeve media:labels:usage --workspace <workspaceId>
@@ -86,7 +85,7 @@ maeve boosts:by-content --workspace <workspaceId> --content <contentId>
 
 Campaigns and strategy reads are general workspace context. Boost reads require a standard plan; the CLI exposes boost reads only, because boost writes spend ad budget.
 
-Agency-plan reads:
+Standard-plan reads:
 
 ```bash
 maeve content:pending-approval-count --workspace <workspaceId>
@@ -133,6 +132,10 @@ maeve campaigns:phases:update --workspace <workspaceId> --id <campaignId> --phas
 maeve hashtags:create --workspace <workspaceId> --json hashtags.json
 maeve hashtags:update --workspace <workspaceId> --id <hashtagGroupId> --json hashtags.json
 maeve inbox:note --workspace <workspaceId> --thread <threadId> --json inbox-note.json
+maeve inbox:tags:create --workspace <workspaceId> --name "VIP" --color "#2563eb"
+maeve inbox:tags:update --workspace <workspaceId> --tag <tagId> --name "New name"
+maeve inbox:tags:reorder --workspace <workspaceId> --json inbox-tag-ids.json
+maeve inbox:tag-thread --workspace <workspaceId> --thread <threadId> --tag <tagId>
 maeve grid:create --workspace <workspaceId> --json grid-item.json
 maeve grid:update --workspace <workspaceId> --item <itemId> --json grid-update.json
 maeve grid:replace-media --workspace <workspaceId> --item <itemId> --json grid-media.json
@@ -181,6 +184,8 @@ maeve inbox:resolve --workspace <workspaceId> --thread <threadId>
 maeve inbox:reopen --workspace <workspaceId> --thread <threadId>
 maeve inbox:resolve-message --workspace <workspaceId> --message <messageId>
 maeve inbox:reopen-message --workspace <workspaceId> --message <messageId>
+maeve inbox:tags:archive --workspace <workspaceId> --tag <tagId>
+maeve inbox:tags:restore --workspace <workspaceId> --tag <tagId>
 maeve grid:reorder --workspace <workspaceId> --json grid-reorder.json
 maeve grid:remove-cover --workspace <workspaceId> --item <itemId>
 ```
@@ -202,13 +207,18 @@ maeve inbox:reply --workspace <workspaceId> --thread <threadId> --json inbox-rep
 maeve inbox:moderate --workspace <workspaceId> --message <messageId> --json inbox-moderate.json --yes
 maeve inbox:retry-message --workspace <workspaceId> --message <messageId> --yes
 maeve inbox:delete-failed --workspace <workspaceId> --message <messageId> --yes
+maeve inbox:tags:delete --workspace <workspaceId> --tag <tagId> --yes
+maeve content:recurring-occurrence:cancel --workspace <workspaceId> --occurrence <occurrenceId> --yes
+maeve content:recurring-series:cancel --workspace <workspaceId> --series <seriesId> --effective-occurrence <occurrenceId> --yes
 maeve grid:delete --workspace <workspaceId> --item <itemId> --yes
 maeve grid:promote --workspace <workspaceId> --item <itemId> --json grid-promote.json --yes
 ```
 
+Recurring series and occurrence IDs come from `recurringMetadata` on `content:list`. Cancelling a series removes every not-yet-published occurrence from the effective occurrence forward.
+
 ## Approvals And Client Reviews
 
-Agency-plan commands:
+Standard-plan commands:
 
 ```bash
 maeve content:comment --workspace <workspaceId> --id <contentId> --json comment.json
@@ -240,7 +250,7 @@ maeve client-reviews:resend --workspace <workspaceId> --batch <batchId> --yes
 
 ## Analytics Reports
 
-Analytics reads are safe. PDF generation is agency-plan only and requires `--yes`:
+Analytics reads are safe. PDF generation is standard-plan only and requires `--yes`:
 
 ```bash
 maeve analytics:report --workspace <workspaceId> --provider instagram --json analytics-report.json --output report.pdf --yes
@@ -321,9 +331,9 @@ Goal: handle publish-now, retry, archive, restore, and delete without accidental
 
 ### Approval Workflow
 
-Goal: manage internal approval and client review work in agency workspaces.
+Goal: manage internal approval and client review work in standard-plan workspaces.
 
-1. Confirm the workspace has agency-plan access if commands fail with plan errors.
+1. Confirm the workspace has standard-plan access if commands fail with plan errors.
 2. Inspect pending work with `content:pending-approval-count`, `content:approval-history`, `content:history`, or client-review reads.
 3. Request or resubmit internal approval with `content:request-approval --yes` or `content:resubmit --yes` only after confirmation because people may be notified.
 4. Submit decisions with `content:decision --json`; include `reason` for rejection or override.
@@ -354,7 +364,7 @@ Goal: read performance data and generate reports safely.
 4. Use `analytics:posts-aggregate --integration-ids <ids>` for cross-account comparisons.
 5. Use `analytics:post --id <contentId>` for one published content item.
 6. Use `analytics:demographics --integration <id>` for audience data.
-7. Generate PDF reports with `analytics:report --yes` only after confirmation; report generation is agency-plan only and can be expensive.
+7. Generate PDF reports with `analytics:report --yes` only after confirmation; report generation is standard-plan only and can be expensive.
 8. Return date range, integrations included, key metric fields requested, report path if generated, and any plan/provider blocker.
 
 ### Inbox Workflow
