@@ -191,8 +191,10 @@ Create `create-content.json`:
 ```json
 {
   "integrationId": "00000000-0000-4000-8000-000000000001",
-  "body": "Launch post copy",
-  "saveAsDraft": true
+  "captions": {
+    "canonical": "Launch post copy"
+  },
+  "intent": "draft"
 }
 ```
 

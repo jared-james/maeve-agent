@@ -40,7 +40,7 @@ Minimal draft:
 }
 ```
 
-Scheduled create payload, only when the user provided an explicit date/time/timezone:
+Scheduled create payload, only when the user provided an explicit date/time/timezone. `scheduledAt` is only allowed when `intent` is `schedule`:
 
 ```json
 {
@@ -54,7 +54,8 @@ Scheduled create payload, only when the user provided an explicit date/time/time
     }
   ],
   "scheduledAt": "2026-05-01T10:00:00+10:00",
-  "postType": "post"
+  "postType": "post",
+  "intent": "schedule"
 }
 ```
 
