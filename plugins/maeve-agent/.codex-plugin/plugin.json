@@ -1,6 +1,6 @@
 {
   "name": "maeve-agent",
-  "version": "0.6.1",
+  "version": "0.7.0",
   "description": "Operate Maeve safely through the CLI, public API, and browser-authenticated hosted MCP.",
   "skills": "./skills/",
   "mcpServers": "./.mcp.json",
