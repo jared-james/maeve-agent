@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.0.0
+
+- Add one portable Agent Plugins v1 package for Cursor, Grok Build, Qwen Code, Codex and compatible clients.
+- Add a native Gemini CLI extension manifest and installation guidance for every supported agent.
+- Move the shared Maeve skill to the repository root so each package uses one maintained source.
+- Describe the current four-tool hosted MCP catalog and Maeve Social workflows across content, media, analytics, tasks, reviews, strategy and inbox automation.
+
 ## 0.7.6
 
 - Align the CLI reference with the canonical `maeve-cli` 0.12.4 root command surface, including Calendar, content-root and Strategy workflows.

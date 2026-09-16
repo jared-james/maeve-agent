@@ -109,6 +109,6 @@ Report the affected IDs, workspace, integration or destination, status, and sche
 
 ## Distribution boundary
 
-The maintained public plugin source is the separate `jared-james/maeve-agent` repository, under `plugins/maeve-agent/`. The backend's mirrored skill is the application-maintained source for this repository only. Installed Codex, Claude, or ChatGPT plugin caches are deployment artifacts and must not be edited as source.
+The maintained public plugin source is the separate `jared-james/maeve-agent` repository, under `skills/maeve-social-scheduler/`. The backend's mirrored skill is the application-maintained source for this repository only. Installed Codex, Claude, or ChatGPT plugin caches are deployment artifacts and must not be edited as source.
 
 Updating the backend server, this mirrored skill, the public plugin repository, and a ChatGPT connection are separate release steps. After a hosted MCP metadata change, refresh a developer-mode ChatGPT connection, confirm the advertised metadata, and start a new conversation. A published ChatGPT plugin uses a reviewed metadata snapshot and needs a scanned, submitted, approved, and published new version. See the [official OpenAI connector refresh process](https://developers.openai.com/plugins/deploy/connect-chatgpt#refresh-metadata).

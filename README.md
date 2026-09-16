@@ -54,6 +54,38 @@ $maeve-social-scheduler show me what is scheduled next week
 
 When prompted, authenticate with Maeve in your browser.
 
+## Install in Cursor
+
+Open the Cursor Marketplace, search for `Maeve Social`, and install the plugin.
+
+When prompted, authenticate with Maeve in your browser. Cursor will load the shared Maeve skill and hosted MCP connection from the portable Agent Plugin package.
+
+## Install in Grok Build
+
+Open the Grok Build plugin marketplace, search for `Maeve Social`, and install the plugin.
+
+When prompted, authenticate with Maeve in your browser. Grok Build will load the Maeve skill and hosted MCP connection from the plugin package.
+
+## Install in Gemini CLI
+
+Install the extension directly from GitHub:
+
+```bash
+gemini extensions install https://github.com/jared-james/maeve-agent
+```
+
+When prompted, authenticate with Maeve in your browser. Gemini CLI will discover the bundled skill and connect to Maeve's hosted MCP server.
+
+## Install in Qwen Code
+
+Install the portable Agent Plugin directly from GitHub:
+
+```bash
+qwen extensions install jared-james/maeve-agent
+```
+
+When prompted, authenticate with Maeve in your browser. Qwen Code will load the shared skill and Streamable HTTP MCP server from the portable Agent Plugin package.
+
 ## Install in Claude Code
 
 Add the marketplace and install the plugin:
@@ -176,7 +208,7 @@ The hosted MCP connection supports workspace and integration discovery, content 
 
 The CLI covers local file uploads and additional workflows such as live inbox messaging, approval decisions, client review actions outside MCP, grid planning, taxonomy, hashtags, and report generation. The public API is the final fallback when neither surface covers the workflow.
 
-The current operation map and exact fallbacks are documented in [`mcp-tools.md`](plugins/maeve-agent/skills/maeve-social-scheduler/references/mcp-tools.md).
+The current operation map and exact fallbacks are documented in [`mcp-tools.md`](skills/maeve-social-scheduler/references/mcp-tools.md).
 
 ## Package details
 
@@ -184,7 +216,7 @@ The stable package ID is `maeve-agent`. The included skill ID is `maeve-social-s
 
 This repository includes:
 
-- A portable Agent Skills-standard skill at `plugins/maeve-agent/skills/maeve-social-scheduler`.
+- A portable Agent Plugins v1 package with the Maeve skill at `skills/maeve-social-scheduler`.
 - A Codex plugin manifest and repository marketplace entry.
 - A Claude Code plugin manifest and repository marketplace.
 - A shared Streamable HTTP MCP configuration with browser authentication.
@@ -202,7 +234,7 @@ This repository contains no credentials and does not need access to Maeve's priv
 
 ## Manual skill installation
 
-If your client does not support plugin marketplaces, copy `plugins/maeve-agent/skills/maeve-social-scheduler` into its user skill directory.
+If your client does not support plugin marketplaces, copy `skills/maeve-social-scheduler` into its user skill directory.
 
 Codex:
 
@@ -218,7 +250,7 @@ Claude Code:
 
 ## Maintaining the plugin
 
-This repository is the maintained public source for the Codex and Claude plugin package. Update the bundled skill under `plugins/maeve-agent/skills/maeve-social-scheduler`, keep the marketplace and plugin manifests aligned when the version changes, then install the repository package locally and test it in a new conversation before publishing. Installed plugin caches are outputs and must not be edited as source.
+This repository is the maintained public source for the portable, Codex, and Claude plugin packages. Update the bundled skill under `skills/maeve-social-scheduler`, keep the marketplace and plugin manifests aligned when the version changes, then install the repository package locally and test it in a new conversation before publishing. Installed plugin caches are outputs and must not be edited as source.
 
 The hosted backend, this repository, and ChatGPT plugin metadata have separate release lifecycles. After a hosted MCP metadata change, refresh a developer-mode ChatGPT connection, confirm the advertised tool metadata, and start a new conversation. Published ChatGPT plugins use reviewed metadata snapshots, so updates require scanning the server, submitting a new version, and publishing the approved version. See the [official OpenAI connector refresh process](https://developers.openai.com/plugins/deploy/connect-chatgpt#refresh-metadata).
 

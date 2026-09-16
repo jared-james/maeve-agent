@@ -8,7 +8,7 @@
       "name": "maeve-agent",
       "source": {
         "source": "local",
-        "path": "./plugins/maeve-agent"
+        "path": "./"
       },
       "policy": {
         "installation": "AVAILABLE",

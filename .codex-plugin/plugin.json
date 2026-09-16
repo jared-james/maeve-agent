@@ -1,7 +1,7 @@
 {
   "name": "maeve-agent",
-  "version": "0.7.6",
-  "description": "Operate Maeve Social safely through the CLI, public API, and browser-authenticated hosted MCP.",
+  "version": "1.0.0",
+  "description": "Maeve Social is an all-in-one social media management platform you can control through your AI agent. Create, schedule and publish content across Instagram, Facebook, TikTok, LinkedIn, X and more. Manage your content calendar, media, approvals and social analytics from one workspace.",
   "author": {
     "name": "LILY DIA PTY LTD",
     "email": "support@maevesocial.com",
@@ -15,8 +15,8 @@
   "keywords": ["maeve", "social-media", "automation", "cli", "mcp", "agent-skills"],
   "interface": {
     "displayName": "Maeve Social",
-    "shortDescription": "Safe Maeve social automation",
-    "longDescription": "Plan, draft, schedule, publish, organize, and analyze social content through Maeve Social with browser-authenticated MCP and CLI fallback workflows.",
+    "shortDescription": "Create, schedule and analyze social content",
+    "longDescription": "Maeve Social is an all-in-one social media management platform you can control through your AI agent. Create, schedule and publish content across Instagram, Facebook, TikTok, LinkedIn, X and more. Manage your content calendar, media, approvals and social analytics from one workspace.",
     "developerName": "LILY DIA PTY LTD",
     "category": "Productivity",
     "capabilities": ["Read", "Write"],
