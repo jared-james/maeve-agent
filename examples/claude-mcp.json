@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "maeve": {
+      "type": "http",
+      "url": "https://api.maevesocial.com/mcp"
+    }
+  }
+}

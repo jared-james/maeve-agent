@@ -1,0 +1,20 @@
+{
+  "name": "maeve-agent",
+  "interface": {
+    "displayName": "Maeve Social"
+  },
+  "plugins": [
+    {
+      "name": "maeve-agent",
+      "source": {
+        "source": "local",
+        "path": "./plugins/maeve-agent"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    }
+  ]
+}
