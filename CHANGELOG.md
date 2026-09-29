@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.1.1
+
+- Note that X Article images, inline and cover, must be 5 MB or less, which is the most X accepts.
+
 ## 1.1.0
 
 - Document X Articles: the `articles.*` MCP operations and `articles:*` CLI commands for creating and updating long-form X posts with a cover and inline Media Room images, running their lifecycle through the content operations, and sending them to X drafts.
