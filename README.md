@@ -229,7 +229,7 @@ The hosted MCP surface exposes four stable tools:
 - `maeve_read` runs read operations.
 - `maeve_write` runs actions that change Maeve or a connected platform.
 
-The CLI workflows in this package require `maeve-cli >= 0.12.4`. MCP runs in the hosted backend and does not require a CLI installation.
+The CLI workflows in this package require `maeve-cli >= 0.13.0`. MCP runs in the hosted backend and does not require a CLI installation.
 
 This repository contains no credentials and does not need access to Maeve's private application repositories.
 

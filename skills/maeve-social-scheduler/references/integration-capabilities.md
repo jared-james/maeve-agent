@@ -189,7 +189,7 @@ Settings:
 - `photo_cover_index`: number.
 - `auto_add_music`: boolean.
 - `tiktok_post_to_drafts`: boolean.
-- `tiktok_music`: selected Commercial Music Library clip for Business direct video publishing; use the live schema and `tiktok-cml-tracks` options.
+- `tiktok_music`: selected Commercial Music Library clip for Business direct video and photo publishing, with the same `songClipId` for both; photo posts ignore the volume values. Use the live schema and `tiktok-cml-tracks` options.
 
 When `privacy_level` is omitted, Maeve publishes `PUBLIC_TO_EVERYONE`. `SELF_ONLY` is forced only while the TikTok app is unaudited.
 

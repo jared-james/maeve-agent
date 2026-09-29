@@ -1,6 +1,6 @@
 # Platform content
 
-Use this reference for content creation, editing and result checks through MCP or the CLI. The CLI examples require maeve-cli 0.12.4 or newer. Inspect live integration capabilities and dynamic options first. Draft acceptance does not prove publishing readiness or native visibility.
+Use this reference for content creation, editing and result checks through MCP or the CLI. The CLI examples require maeve-cli 0.13.0 or newer. Inspect live integration capabilities and dynamic options first. Draft acceptance does not prove publishing readiness or native visibility.
 
 ## Shared content model
 
@@ -46,7 +46,7 @@ Deleting a published root does not delete its replies. Read each reply's `platfo
 
 Discover account-specific privacy choices through `tiktok-creator-info`. Use `tiktok_post_to_drafts` only when delivery to TikTok's app is intended. Read `deliveryMode`: a `sent` item with `tiktok_drafts` still requires review and publication in TikTok and is not evidence of a public publication.
 
-For Business direct video music, use `tiktok-cml-tracks` with `countryCode` and optional `genre` and `dateRange`. Select a returned `songClipId` for `tiktok_music`, retaining its account binding and both volume values from the live schema. The chart country is not a licensing guarantee. Selected clips do not support photo content or delivery to TikTok drafts. Set `is_aigc` for AI-generated content. Respect the current ten-attachment input limit even though TikTok capabilities advertise 35 images.
+For Business direct music on video or photo posts, use `tiktok-cml-tracks` with `countryCode` and optional `genre` and `dateRange`. Select a returned `songClipId` for `tiktok_music`, retaining its account binding and both volume values from the live schema. The same `songClipId` works for video and photo posts; photo posts ignore the volume values, and a track can't be combined with `auto_add_music: true`. The chart country is not a licensing guarantee. Selected clips do not support delivery to TikTok drafts. Set `is_aigc` for AI-generated content. Respect the current ten-attachment input limit even though TikTok capabilities advertise 35 images.
 
 ## YouTube
 

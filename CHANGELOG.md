@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.1.0
+
+- Document X Articles: the `articles.*` MCP operations and `articles:*` CLI commands for creating and updating long-form X posts with a cover and inline Media Room images, running their lifecycle through the content operations, and sending them to X drafts.
+- Require `maeve-cli` 0.13.0, which adds the `articles:*` and `ads:*` command groups.
+- Match the canonical skill, including TikTok Commercial Music Library clips on Business photo posts.
+
 ## 1.0.0
 
 - Add one portable Agent Plugins v1 package for Cursor, Grok Build, Qwen Code, Codex and compatible clients.

@@ -1,7 +1,7 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "maeve-agent",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Maeve Social is an all-in-one social media management platform you can control through your AI agent. Create, schedule and publish content across Instagram, Facebook, TikTok, LinkedIn, X and more. Manage your content calendar, media, approvals and social analytics from one workspace.",
   "author": {
     "name": "LILY DIA PTY LTD",

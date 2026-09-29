@@ -1,6 +1,6 @@
 # Command reference
 
-Curated from the canonical `maeve-cli` 0.12.4 command surface. Use root `maeve --help` to verify that a command exists; do not use subcommand help as an existence probe.
+Curated from the canonical `maeve-cli` 0.13.0 command surface. Use root `maeve --help` to verify that a command exists; do not use subcommand help as an existence probe.
 
 ## Contents
 
@@ -179,6 +179,7 @@ maeve calendar:notes:move --workspace <workspaceId> --id <noteId> --json calenda
 maeve strategy:platform:upsert --workspace <workspaceId> --platform instagram --json platform-strategy.json
 maeve strategy:goal:estimate --workspace <workspaceId> --json goal.json
 maeve strategy:goal:create --workspace <workspaceId> --json goal.json
+maeve strategy:foundation:update --workspace <workspaceId> --json foundation-update.json
 maeve strategy:goal:update --workspace <workspaceId> --id <goalId> --json goal-update.json
 maeve strategy:goal:log-progress --workspace <workspaceId> --id <goalId> --json goal-progress.json
 maeve strategy:goal:complete --workspace <workspaceId> --id <goalId>
@@ -200,6 +201,8 @@ maeve grid:update --workspace <workspaceId> --item <itemId> --json grid-update.j
 maeve grid:replace-media --workspace <workspaceId> --item <itemId> --json grid-media.json
 maeve grid:set-cover --workspace <workspaceId> --item <itemId> --json grid-cover.json
 ```
+
+`strategy:foundation:update` replaces whole parts (`audience`, `objective`, `positioning`, `voice`) and leaves out parts as saved. Read with `strategy:foundation` first, edit the part, then send every field of that part; a part missing a field is rejected.
 
 There is no CLI command to set a content workflow status (idea, drafting, and so on); that is set in the app. The CLI only filters by it, with `content:list --workflow-status` / `--workflow-statuses`.
 

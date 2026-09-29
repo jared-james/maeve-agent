@@ -1,6 +1,6 @@
 ---
 name: maeve-social-scheduler
-description: Use Maeve MCP, CLI or public API to create and schedule social content, manage media, inspect performance, and handle content workflows. Use for tasks in a Maeve workspace.
+description: Manage content, media, and analytics in a Maeve workspace through MCP, CLI, or API. Use for workspace operations, not Maeve code development.
 ---
 
 # Maeve Social
@@ -13,7 +13,7 @@ Verify the selected API environment, organization, workspace and integration. A 
 
 ## Create and change content
 
-1. Use `maeve_search` to discover `workspace.list`, execute it with `maeve_read`, then search again with the selected workspace. Load `maeve_details` for every chosen operation before execution. Read the connected integration's live capabilities and fetch dynamic options when a capability includes `optionKey`.
+1. For MCP, use `maeve_search` to discover `workspace.list`, execute it with `maeve_read`, then search again with the selected workspace. Load `maeve_details` for every chosen operation before execution. With any connection, read the connected integration's live capabilities and fetch dynamic options when a capability includes `optionKey`.
 2. Read the selected platform in [platform-content.md](references/platform-content.md). Use the live tool schema or CLI schema; their arguments are not interchangeable.
 3. Create a draft unless the user asked to publish or schedule. MCP executes `content.create_draft` through `maeve_write`; CLI uses `content:create` with omitted or draft `intent`. Upload local media through Maeve before attaching its IDs.
 4. Resolve the publication date, time and timezone before scheduling. Confirm any missing intent, destination or external effect before publishing, deleting, sending messages or making broad changes. Existing authorization applies to the same action and targets; do not repeatedly ask for it.
