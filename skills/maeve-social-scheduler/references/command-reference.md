@@ -41,6 +41,8 @@ maeve content:list --workspace <workspaceId>
 maeve content:get --workspace <workspaceId> --id <contentId>
 maeve content:roots:list --workspace <workspaceId>
 maeve content:roots:get --workspace <workspaceId> --id <rootId>
+maeve articles:list --workspace <workspaceId>
+maeve articles:get --workspace <workspaceId> --id <contentId>
 maeve content:failed-count --workspace <workspaceId>
 maeve media:list --workspace <workspaceId>
 maeve media:list --workspace <workspaceId> --state deleted
@@ -144,6 +146,8 @@ Prefer draft creation unless the user explicitly asks to schedule or publish:
 maeve content:create --workspace <workspaceId> --json create-content.json
 maeve content:update --workspace <workspaceId> --id <contentId> --json update-content.json
 maeve content:roots:update --workspace <workspaceId> --id <rootId> --json root-update.json
+maeve articles:create --workspace <workspaceId> --integration <xIntegrationId> --title "Title" --body article.html [--cover <mediaId>]
+maeve articles:update --workspace <workspaceId> --id <contentId> [--title "Title"] [--body article.html --body-version <bodyVersion>] [--cover <mediaId> | --remove-cover]
 maeve content:metadata --workspace <workspaceId> --id <contentId> --json content-metadata.json
 maeve content:notes --workspace <workspaceId> --id <contentId> --notes "<p>Planning notes</p>"
 maeve media:inspect-audio --workspace <workspaceId> --id <mediaId>
@@ -211,7 +215,10 @@ maeve content:published-caption --workspace <workspaceId> --id <contentId> --jso
 maeve content:retry --workspace <workspaceId> --id <contentId>
 maeve content:resolve-publishing-result --workspace <workspaceId> --id <contentId> --json publishing-result.json --yes
 maeve content:revert-to-draft --workspace <workspaceId> --id <contentId>
+maeve articles:send-to-x-drafts --workspace <workspaceId> --id <contentId> --yes
 ```
+
+`articles:send-to-x-drafts` writes a draft to the account's X drafts, which X's API cannot delete, so it requires `--yes`. Article bodies are HTML files whose images reference Media Room IDs; see the X section of [platform-content.md](platform-content.md).
 
 `content:create` requires CLI `--yes` when the payload has `intent: "publish_now"`. `content:publish` requires CLI `--yes`. `content:published-caption` requires CLI `--yes` because it edits already-published provider content. `content:resolve-publishing-result` requires CLI `--yes` and records only an outcome already verified on the connected platform; it does not publish or retry. `content:retry` does not require `--yes` in the CLI, but agents should still confirm because it can publish externally. `content:revert-to-draft` cancels scheduling for every scheduled edition of the same root; use its optional JSON scope preconditions when the affected editions need to be fixed explicitly.
 

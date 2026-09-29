@@ -24,6 +24,7 @@ Maeve supports Instagram, Facebook, TikTok, LinkedIn, LinkedIn Pages, X, Threads
 - Create, update, schedule, publish, and organize content across connected social accounts.
 - Review upcoming content, calendar notes, and campaign gaps.
 - Tailor captions and publishing options for each platform.
+- Write long-form X Articles with a cover and inline images from the Media Room, then schedule, publish, or send them to X drafts.
 - Upload, find, label, move, and organize images and videos in the Media Room.
 - Read account and content analytics, including post-level performance and audience demographics.
 - Create and manage tasks, comments, and checklists.
@@ -204,7 +205,7 @@ Do not put raw API keys in URLs, prompts, project files, screenshots, shared cha
 
 ## Coverage
 
-The hosted MCP connection supports workspace and integration discovery, content management, scheduling and publishing, Media Room organization, analytics, task boards, workbench content tables, review requests, calendar workflows, strategy, and inbox auto-reply configuration.
+The hosted MCP connection supports workspace and integration discovery, content management, X Articles, scheduling and publishing, Media Room organization, analytics, task boards, workbench content tables, review requests, calendar workflows, strategy, and inbox auto-reply configuration.
 
 The CLI covers local file uploads and additional workflows such as live inbox messaging, approval decisions, client review actions outside MCP, grid planning, taxonomy, hashtags, and report generation. The public API is the final fallback when neither surface covers the workflow.
 

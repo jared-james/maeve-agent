@@ -95,6 +95,8 @@ Use `contentMedia` for per-media metadata:
 | `pinterest`               | `post`                    | `image`, `video`             |         1 | no      | yes            | yes            |
 | `google-business-profile` | `post`                    | `image`                      |         1 | no      | no             | no             |
 
+X also supports `article`, which only the article operations create (`articles.create`, `articles:create`, `POST /articles`), never content create.
+
 The table describes provider capabilities. Current content inputs cap attachments at ten per message, so apply the smaller input/platform limit. Read [Platform content](platform-content.md) for current model constraints and reverse states.
 
 Unknown platforms fall back to common post types `post`, `reel`, `story`, and `thread`; media types `image`, `video`; max media 10; no required media/title; no thread support.
