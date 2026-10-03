@@ -1,12 +1,11 @@
 # MCP operation catalog
 
-Use this reference for hosted MCP setup, operation discovery, execution, upload, batch recovery, and connection recovery. The hosted MCP server runs with the Maeve backend. CLI npm publication and the maintained plugin package are separate releases.
+Use this reference for hosted MCP setup, operation discovery, execution, upload, batch recovery, and connection recovery. The hosted MCP server runs with the Maeve backend. The maintained plugin package has its own release process.
 
 ## Connection
 
-- Prefer the MCP client's own browser connection. Claude Code: run `/mcp`, choose `maeve`, and approve Maeve in the browser. Codex: run `codex mcp login maeve` and approve Maeve in the browser. Other clients: use their **Authenticate** action.
-- Use `MAEVE_API_KEY` only when the client does not support browser authentication or for server-side automation.
-- CLI login does not authenticate MCP. Never paste API keys, OAuth codes, tokens, presigned URLs, or raw provider payloads into chat or files.
+- Use the MCP client's own connect or **Authenticate** action. If the connection is unavailable, ask the user to connect Maeve before continuing.
+- Never paste API keys, OAuth codes, tokens, presigned URLs, or raw provider payloads into chat or files.
 - Confirm the API environment, organization, workspace, and integration independently. Different connections can target different environments.
 
 ## Four-tool surface
@@ -22,7 +21,7 @@ The ordinary `/mcp` surface exposes only the authorized subset of these four nam
 
 An OAuth grant without read scope can expose only `maeve_write`; a read-only grant exposes `maeve_search`, `maeve_details`, and `maeve_read`. Toolsets still authorize operations even though they no longer create top-level tool names.
 
-Do not guess an operation schema from its canonical ID or from a CLI command. Search, load details for the chosen operation, then use the returned executor and exact input schema. A prior search or details call is guidance, not authorization.
+Do not guess an operation schema from its canonical ID. Search, load details for the chosen operation, then use the returned executor and exact input schema. A prior search or details call is guidance, not authorization.
 
 ### Discovery pattern
 
@@ -52,13 +51,13 @@ These stable IDs are useful search targets. Details remains authoritative for th
 | Analytics                         | `analytics.get_summary`, `analytics.get_aggregate`, `analytics.get_health`, `analytics.get_demographics`, `analytics.get_posts`, `analytics.get_posts_aggregate`, `analytics.get_post`, `instagram_competitors.list`, `instagram_competitors.get_benchmark`, `instagram_competitors.list_posts` | None                                                                                                                                                                                                                                                                                                                                                                                               |
 | Inbox automation                  | `inbox_automation.list_rules`, `inbox_automation.get_rule`, `inbox_automation.list_executions`                                                                                                                                                                                                  | `inbox_automation.create_rule`, `inbox_automation.update_rule`, `inbox_automation.delete_rule`                                                                                                                                                                                                                                                                                                     |
 
-X Articles are long-form X posts. Create them with `articles.create`, not `content.create_draft`, on an X integration whose `content.canPublishArticles` is true. Upload images with `media.upload` first, then reference Media Room still images of 5 MB or less by ID: `coverMediaId` for the cover and `<img data-media-id="...">` in `bodyHtml` for inline images. Replace a body with `articles.update` and the `bodyVersion` from the latest `articles.get`; `POST_BODY_CHANGED` means someone changed it in Maeve, so read it again. Scheduled, in-review and published articles refuse edits with `ARTICLE_NOT_EDITABLE`. The returned `contentId` works with `content.schedule`, `content.publish_now`, `content.revert_to_draft`, `content.retry` and `content.delete`. `articles.send_to_x_drafts` makes a draft in the account's drafts on X instead of publishing; it needs an `idempotencyKey` and the exact confirmation, and X's API cannot delete that draft.
+X Articles are long-form X posts. Create them with `articles.create`, not `content.create_draft`, on an X integration whose `content.canPublishArticles` is true. Import supported images with `media.import` first, then reference Media Room still images of 5 MB or less by ID: `coverMediaId` for the cover and `<img data-media-id="...">` in `bodyHtml` for inline images. Replace a body with `articles.update` and the `bodyVersion` from the latest `articles.get`; `POST_BODY_CHANGED` means someone changed it in Maeve, so read it again. Scheduled, in-review and published articles refuse edits with `ARTICLE_NOT_EDITABLE`. The returned `contentId` works with `content.schedule`, `content.publish_now`, `content.revert_to_draft`, `content.retry` and `content.delete`. `articles.send_to_x_drafts` makes a draft in the account's drafts on X instead of publishing; it needs an `idempotencyKey` and the exact confirmation, and X's API cannot delete that draft.
 
 Strategy operations use the `strategy.*` namespace. Search for the requested Foundation, platform, Goal, Bet, prediction, progress, or Retro workflow instead of loading the whole namespace.
 
 `content.create_draft` can place new content directly on a table with `workbenchPageId` and optional `sortOrder`. If placement fails after creation, keep the returned `contentId` and finish with `workbench.content_table.add_row`; do not create replacement content. Row cell replacement and removal require the latest row `version`. Re-read after a stale-version conflict. Removing a row requires exact confirmation and leaves the content intact.
 
-Live inbox messaging, approval decisions, ads, billing, credentials, integration connect/disconnect, recurring cancellation, and PDF reports remain outside the MCP catalog. Use the CLI or public API only where they support the task and the user has authorized the effect.
+Use only operations available in the connected MCP catalog. If the requested workflow is unavailable, explain the limitation and direct the user to the Maeve app. Approval decisions remain human actions.
 
 ## Confirmation
 
@@ -72,16 +71,9 @@ Live inbox messaging, approval decisions, ads, billing, credentials, integration
 
 ## Upload sequence
 
-For a public HTTPS link or a file the user attached in ChatGPT, run `media.import` through `maeve_write` instead. Put the link in `input.url`, or pass the attachment unchanged as the top-level `file` field. Maeve downloads the file and returns the new media ID, so no PUT is needed. Never build a `file` object from a name, ID, or earlier message.
+For a public HTTPS link or a file the user attached in ChatGPT, run `media.import` through `maeve_write`. Put the link in `input.url`, or pass the attachment unchanged as the top-level `file` field. Maeve downloads the file and returns the new media ID, so no PUT is needed. Never build a `file` object from a name, ID, or earlier message.
 
-MCP uploads of local files require both operation calls and an external byte transfer:
-
-1. Load details for `media.upload`, then call it through `maeve_write` with file name, MIME type, size, and workspace context.
-2. Keep the returned upload session fields private. PUT the exact local file bytes to the returned URL before expiry, using the required headers.
-3. Load details for `media.complete_upload`, then execute it through `maeve_write` with the returned session identity.
-4. Read `media.get` before attaching the new media ID to content.
-
-If the current client cannot read the local file or make the PUT request, use `maeve media:upload` instead. The four MCP tools do not add file-system or arbitrary HTTP capability. Never report an initialized upload as completed. Replaying initialization does not renew an expired URL; inspect the current session and create a new upload session only when the old transfer can no longer complete.
+For a local file that is not available as a supported chat attachment or public HTTPS link, ask the user to upload it in the Maeve app, then select the resulting record through `media.list` and `media.get`. Do not initialize an upload that requires a byte transfer outside the connected tools. Never report an initialized upload as completed.
 
 ## Batch operations
 
@@ -91,7 +83,7 @@ If the current client cannot read the local file or make the PUT request, use `m
 - Treat results independently by `index`. Retain every successful resource ID and per-item replay key even when neighbours fail.
 - Replaying the same key and manifest returns the recorded successes and failures. It does not make a failed item succeed or renew upload URLs.
 - Corrected input needs a new item or batch key. Reusing a key with changed input is a conflict.
-- Media upload batches still require one byte PUT per initialized item before completion.
+- Upload-session batches require external byte transfers and are not supported by this skill. Use `media.import` for supported individual attachments or links, or ask the user to upload the files in Maeve.
 - Do not schedule or publish a draft batch merely to verify draft creation.
 
 ## Recovery
@@ -101,7 +93,7 @@ If the current client cannot read the local file or make the PUT request, use `m
 - For conflict or uncertain mutation results, follow the operation's details retry contract. Read the affected resource before retrying an idempotent or unsafe write.
 - A queued publish is not a native publication. Do not retry or create replacement content while the provider outcome is uncertain.
 - If an MCP session is lost or expired, initialize a fresh session, reload the four-tool declaration, and continue from persisted Maeve IDs. There is no activation state to rebuild, and session loss does not erase saved content or media.
-- Authentication loss uses the client's reconnect flow. CLI login cannot repair MCP OAuth.
+- Authentication loss uses the client's reconnect flow. Stop dependent operations until the connection is restored.
 
 ## Returned links
 

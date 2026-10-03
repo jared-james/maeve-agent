@@ -1,41 +1,25 @@
 # Integration capabilities
 
-Quick-glance reference for the live capability catalog returned by `integrations:capabilities`.
+Quick-glance reference for the live capability catalog returned by `integrations.get_capabilities`.
 
 ## Contents
 
-- Commands
+- Operations
 - Response shape
 - Settings and media metadata
 - Platform matrix
 - Platform settings and options
 - Agent rules
 
-## Commands
+## Operations
 
-List integrations:
+Load `maeve_details` before executing these operations through `maeve_read`:
 
-```bash
-maeve integrations:list --workspace <workspaceId>
-```
+- `integrations.list` for the workspace's connected accounts.
+- `integrations.get_capabilities` for the selected integration's publishing requirements.
+- `integrations.get_options` for dynamic options advertised by capabilities.
 
-Get safe publishing requirements:
-
-```bash
-maeve integrations:capabilities --workspace <workspaceId> --integration <integrationId>
-```
-
-Fetch dynamic options returned by capabilities. Prefer MCP operation `integrations.get_options` through `maeve_read` when connected; use the CLI fallback when MCP is unavailable:
-
-```bash
-maeve integrations:options --workspace <workspaceId> --integration <integrationId> --key <optionKey>
-```
-
-Use `--json <file>` for option bodies:
-
-```json
-{ "regionCode": "AU" }
-```
+Pass workspace and integration context inside `input`, using the exact schema returned by details. For option bodies, use the fields supported by that schema.
 
 Supported option body fields:
 
@@ -95,7 +79,7 @@ Use `contentMedia` for per-media metadata:
 | `pinterest`               | `post`                    | `image`, `video`             |         1 | no      | yes            | yes            |
 | `google-business-profile` | `post`                    | `image`                      |         1 | no      | no             | no             |
 
-X also supports `article`, which only the article operations create (`articles.create`, `articles:create`, `POST /articles`), never content create.
+X also supports `article`, which only the article operations create (`articles.create`), never content create.
 
 The table describes provider capabilities. Current content inputs cap attachments at ten per message, so apply the smaller input/platform limit. Read [Platform content](platform-content.md) for current model constraints and reverse states.
 
@@ -136,21 +120,7 @@ Options:
 - `instagram-products`: requires `catalogId`; optional `query`.
 - `instagram-audio`: requires `audioType` (`music` or `original_sound`); optional `query`, omit for recommended audio. Returns `audio_id`, title, artist, duration, and a preview link per track.
 
-Fetch flow for products:
-
-```bash
-# MCP preferred: execute integrations.get_options through maeve_read with optionKey instagram-catalogs, then instagram-products.
-maeve integrations:options --workspace <workspaceId> --integration <integrationId> --key instagram-catalogs
-maeve integrations:options --workspace <workspaceId> --integration <integrationId> --key instagram-products --json product-options.json
-```
-
-Fetch flow for Reel audio:
-
-```bash
-# MCP preferred: execute integrations.get_options through maeve_read with optionKey instagram-audio.
-maeve integrations:options --workspace <workspaceId> --integration <integrationId> --key instagram-audio --json audio-options.json
-# audio-options.json: { "audioType": "music", "query": "upbeat" }
-```
+For products, execute `integrations.get_options` with option key `instagram-catalogs`, then `instagram-products` with the selected catalog ID. For Reel audio, use option key `instagram-audio` with `audioType` and optional `query`. Follow the live input schema for each call.
 
 ### Facebook and Facebook Page
 
@@ -251,9 +221,9 @@ Posts may contain text only or one HTTPS image. Follow the live `rules` returned
 
 ## Agent rules
 
-- Call `integrations:capabilities` before platform-specific settings.
+- Call `integrations.get_capabilities` before platform-specific settings.
 - Read and follow the live `rules` string returned by capabilities; do not rely on static prose for platform-specific publishing requirements.
-- When a settings field has `optionKey`, execute MCP `integrations.get_options` through `maeve_read` before choosing a value, or use CLI `integrations:options` as the fallback.
+- When a settings field has `optionKey`, execute MCP `integrations.get_options` through `maeve_read` before choosing a value.
 - If `requiresMedia` is true, attach uploaded media before scheduling or publishing.
 - If `requiresTitle` is true, include `publishTitle` before scheduling or publishing.
 - Respect both `maxMedia` and the current input limit when building `contentMedia`.

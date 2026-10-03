@@ -1,0 +1,33 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "app-6a8ccd4370188191932fe94b18d9b3eb",
+  "version": "2.0.1",
+  "description": "Connect ChatGPT to your Maeve Social workspace to review scheduled content and analytics, create platform-aware drafts, organize Media Room assets and tasks, configure inbox auto-replies, schedule content, and publish with explicit confirmation. Maeve supports Instagram, Facebook, TikTok, LinkedIn, LinkedIn Pages, X, Threads, YouTube, Pinterest, and Google Business Profile. Content creation is draft-first, and high-impact actions are protected by confirmation. Requires a Maeve Social account.",
+  "author": {
+    "name": "LILY DIA PTY LTD"
+  },
+  "extensions": {
+    "com.openai": {
+      "interface": {
+        "capabilities": [],
+        "category": "Productivity",
+        "defaultPrompt": [
+          "Show me what content is scheduled across my workspace this week.",
+          "Review my recent social performance and summarize which content performed best.",
+          "Create a draft for my next campaign using my workspace strategy and connected platform requirements."
+        ],
+        "developerName": "LILY DIA PTY LTD",
+        "displayName": "Maeve Social",
+        "longDescription": "Connect ChatGPT to your Maeve Social workspace to review scheduled content and analytics, create platform-aware drafts, organize Media Room assets and tasks, configure inbox auto-replies, schedule content, and publish with explicit confirmation. Maeve supports Instagram, Facebook, TikTok, LinkedIn, LinkedIn Pages, X, Threads, YouTube, Pinterest, and Google Business Profile. Content creation is draft-first, and high-impact actions are protected by confirmation. Requires a Maeve Social account.",
+        "privacyPolicyURL": "https://maevesocial.com/privacy",
+        "shortDescription": "Manage social media content",
+        "supportURL": "https://maevesocial.com/contact",
+        "termsOfServiceURL": "https://maevesocial.com/terms",
+        "websiteURL": "https://maevesocial.com"
+      },
+      "publication": {
+        "release_notes": "Expose Maeve operations as individual MCP tools through a dedicated OpenAI endpoint. Update the skill to use direct tool arguments and remove CLI and API fallback instructions. Preserve existing workspace permissions, confirmation requirements and retry safeguards."
+      }
+    }
+  }
+}

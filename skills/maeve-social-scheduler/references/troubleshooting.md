@@ -1,104 +1,36 @@
 # Troubleshooting
 
-Use this when CLI commands fail or return validation/provider errors.
+Use this when connected MCP operations fail or return validation or provider errors.
 
-## Contents
+## Authentication failures
 
-- Auth Failures
-- Missing Workspace
-- Missing Or Unusable Integration
-- JSON Validation Errors
-- Timezone Errors
-- Platform Requirement Errors
-- Plan Or Role Errors
-- Rate Limits And Provider Errors
-- Output And Debugging
-
-## Auth failures
-
-Run:
-
-```bash
-maeve auth:status
-maeve auth:whoami
-```
-
-Credential precedence is:
-
-1. `--api-key`
-2. `--api-key-env <name>`
-3. `MAEVE_API_KEY`
-4. Stored CLI login token
-
-For automation, prefer env vars. For local sessions, use:
-
-```bash
-maeve auth:login
-```
-
-Browser login tokens expire after 7 days and are stored per API URL.
-
-For workspace-scoped keys stored under a named environment variable, do not paste the key value into commands or chat. Pass the variable name:
-
-```bash
-maeve --api-key-env MAEVE_API_KEY_WORKSPACE auth:status
-maeve --api-key-env MAEVE_API_KEY_WORKSPACE media:labels:list --workspace <workspaceId>
-```
-
-When `--api-key-env` is provided, that named variable must exist. The CLI will not silently fall back to `MAEVE_API_KEY`.
-
-For hosted MCP, the fix is the MCP client's own connect step, never the CLI. Claude Code: run `/mcp`, choose `maeve`, and approve Maeve in the browser. Codex: run `codex mcp login maeve` and approve Maeve in the browser. Other clients: their own **Authenticate** action for `maeve`. The client handles the redirect itself, so do not paste the authorization URL into chat or ask for it back.
-
-MCP access tokens last 6 hours and refresh through 90-day rotating refresh tokens. If an MCP client cannot refresh, was revoked, or asks for approval again, run the same connect step again. Organization admins can revoke active AI tool connections in Maeve **Settings -> Developer**.
-
-If browser auth is not supported by the MCP client, use the API-key fallback. Set `MAEVE_API_KEY` in the shell or client secret storage. Do not put the key in `.mcp.json`, `config.toml`, command history, screenshots, or chat.
-
-CLI login is separate. `maeve auth:login` signs in the CLI only; it does not create an MCP token.
-
-If `maeve --help` shows `media:tags:*` instead of `media:labels:*`, the globally installed CLI is stale. Upgrade with `npm install -g maeve-cli@latest`, or run commands through `npx maeve-cli@latest` until the global install is refreshed.
+Use the MCP client's own connect or reconnect action. The client handles authentication; do not request credentials or authorization URLs in chat. Stop dependent operations until the connection is restored. If the client cannot connect, report that limitation rather than using another execution surface.
 
 ## Missing workspace
 
-Run:
-
-```bash
-maeve workspaces:list
-```
-
-If a workspace is missing, the current credential likely does not belong to the expected organization or lacks access.
+Discover `workspace.list`, load its details, and execute it through `maeve_read`. If the workspace is missing, report that the connected account may lack access. Do not switch credentials to bypass the result.
 
 ## Missing or unusable integration
 
-Run:
+Load details for `integrations.list` and `integrations.get_capabilities`, then execute through `maeve_read` for the selected workspace and integration.
 
-```bash
-maeve integrations:list --workspace <workspaceId>
-maeve integrations:capabilities --workspace <workspaceId> --integration <integrationId>
-```
-
-Status meanings:
-
-- `connected`: safe to use.
-- `requires_reauth`: ask the user to reconnect the social account.
+- `connected`: proceed subject to capabilities and permissions.
+- `requires_reauth`: ask the user to reconnect the social account in Maeve.
 - `disabled`: ask the user to enable or choose another integration.
-- `auth_incomplete`: ask the user to finish provider authorization.
+- `auth_incomplete`: ask the user to finish provider authorization in Maeve.
 
-If capabilities says an option key is unsupported, refetch capabilities for the exact integration ID; option keys are platform-specific.
+If an option key is unsupported, refetch capabilities for the exact integration ID.
 
 ## JSON validation errors
 
 Common fixes:
 
-- Ensure payload files are valid JSON, not JavaScript.
+- Follow the input schema returned by `maeve_details`; fix only the fields identified in `details.validationErrors`.
 - Ensure IDs are UUID strings; grid planner IDs must be UUIDv4.
 - Include at least one field for update payloads.
 - For create content, include `integrationId` and at least one useful draft field such as `captions.canonical`, `internalTitle`, `publishTitle`, or `contentMedia`.
 - Keep `captions.canonical` and caption overrides at or below 25000 characters.
 - Use `contentMedia` for content attachments. Keep it to 10 or fewer items before applying stricter platform `maxMedia` from capabilities.
-- For approval/client-review comments, include `body` or `attachmentId`.
-- For inbox replies, include `content` or `attachment`.
-- For grid create, include `mediaIds` for `visual_only` or `linkedContentId` for `linked_post`.
-- For analytics reports, include `integrationId` or unique `integrationIds`.
 
 ## Timezone errors
 
@@ -112,11 +44,7 @@ Valid examples include offsets like `+10:00` and UTC `Z`. Do not use vague dates
 
 ## Platform requirement errors
 
-Run capabilities before retrying:
-
-```bash
-maeve integrations:capabilities --workspace <workspaceId> --integration <integrationId>
-```
+Load details for `integrations.get_capabilities` and execute through `maeve_read` before retrying.
 
 Then check:
 
@@ -130,7 +58,7 @@ Then check:
 
 Known strict cases:
 
-- Pinterest requires media, `publishTitle`, and `settings.boardId`. Video pins also require a cover: pass `contentMedia[].cover.coverMediaId`, or use a video uploaded through the app (app uploads get a stored thumbnail; CLI/API uploads do not).
+- Pinterest requires media, `publishTitle`, and `settings.boardId`. Video pins also require a cover: pass `contentMedia[].cover.coverMediaId`, or use a video uploaded through the app when it has a stored thumbnail.
 - YouTube requires one video and `publishTitle`.
 - TikTok requires media and `settings.privacy_level` from `tiktok-creator-info`. `publishTitle` is optional.
 
@@ -146,25 +74,17 @@ Provider behavior confirmed in live testing (2026-08-18):
 
 Approval history, client reviews, approval decisions/comments, pending approval counts, boosts, and analytics PDF reports require a standard workspace plan and specific roles.
 
-If the command says it requires a plan or the role is denied, report the plan/role blocker and do not retry with different payloads unless the user changes workspace/account.
+Report `plan_required`, `forbidden` or `not_found` and do not retry. If an operation is unavailable, explain the limitation and direct the user to Maeve.
 
 ## Rate limits and provider errors
 
-If a command fails with rate limit or provider errors:
+If an operation fails with rate limit or provider errors:
 
-- Do not immediately loop retries.
-- Preserve the command, workspace, integration, content/media/message ID, provider/platform, and error code/message in the response.
+- Respect `retryAfterSeconds`; do not immediately loop retries.
+- Preserve the operation ID, workspace, integration, content/media/message ID, provider/platform, and error code/message in the response.
 - For provider auth errors, recheck integration status.
-- For transient provider errors, ask whether to retry later or use `content:retry`/`inbox:retry-message` only after confirmation.
+- Read the affected resource before retrying an uncertain write. Follow the operation retry contract and preserve successful IDs. Use `content.retry` only when available and authorized; never create replacement content to recover an uncertain publication.
 
 ## Output and debugging
 
-Successful commands write JSON to stdout. Errors write structured JSON to stderr and exit non-zero.
-
-For list commands, use filters to reduce noise:
-
-```bash
-maeve content:list --workspace <workspaceId> --status scheduled
-maeve inbox:threads --workspace <workspaceId> --read unread
-maeve media:list --workspace <workspaceId> --type image --favorite
-```
+Summarize structured tool results and errors without exposing credentials or private URLs. Use filters from the live operation schema to bound list results. Never report a queued response as completed publication.
