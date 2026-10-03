@@ -31,7 +31,7 @@ Maeve supports Instagram, Facebook, TikTok, LinkedIn, LinkedIn Pages, X, Threads
 - Work with content tables, strategy foundations, goals, bets, and retros.
 - Request internal or client review and manage review batches.
 - Create and monitor inbox auto-reply rules.
-- Use the connected MCP tools for supported workflows, and the Maeve app when a workflow or file import is unavailable.
+- Use Maeve's CLI for local files and workflows that are not available through the hosted connection.
 
 ## Install in Codex
 
@@ -144,21 +144,72 @@ Example project `.mcp.json`:
 ## Requirements
 
 - A Maeve Social account with access to at least one workspace.
-- An MCP client that supports browser authentication.
+- An MCP client that supports browser authentication, or an API key for fallback automation.
+- Node.js 22 or newer when using the Maeve CLI.
 
 Maeve Social accounts are currently offered to customers in Australia, New Zealand, and the United States.
+
+## CLI fallback
+
+The hosted connection handles most agent workflows. The plugin uses the Maeve CLI when it needs local file access or a product area outside the hosted MCP catalog.
+
+Install the current CLI globally:
+
+```bash
+npm install -g maeve-cli@latest
+```
+
+Or run it without a global installation:
+
+```bash
+npx maeve-cli@latest
+```
+
+Sign in and check your workspaces:
+
+```bash
+maeve auth:status
+maeve auth:login
+maeve workspaces:list
+```
+
+CLI login and MCP login are separate. Signing in to one does not authenticate the other.
+
+### API-key authentication
+
+Use an API key when browser authentication is unavailable or for server-side automation.
+
+macOS and Linux:
+
+```bash
+export MAEVE_API_KEY="ezb_live_..."
+export MAEVE_API_URL="https://api.maevesocial.com"
+```
+
+PowerShell:
+
+```powershell
+$env:MAEVE_API_KEY="ezb_live_..."
+$env:MAEVE_API_URL="https://api.maevesocial.com"
+```
+
+Codex fallback:
+
+```toml
+[mcp_servers.maeve]
+url = "https://api.maevesocial.com/mcp"
+bearer_token_env_var = "MAEVE_API_KEY"
+```
+
+Do not put raw API keys in URLs, prompts, project files, screenshots, shared chat, or git history.
 
 ## Coverage
 
 The hosted MCP connection supports workspace and integration discovery, content management, X Articles, scheduling and publishing, Media Room organization, analytics, task boards, workbench content tables, review requests, calendar workflows, strategy, and inbox auto-reply configuration.
 
-If the connected tools do not support a requested workflow or file import, the skill explains the limitation and directs you to the Maeve app.
+The CLI covers local file uploads and additional workflows such as live inbox messaging, approval decisions, client review actions outside MCP, grid planning, taxonomy, hashtags, and report generation. The public API is the final fallback when neither surface covers the workflow.
 
-The current operation map and connection boundaries are documented in [`mcp-tools.md`](skills/maeve-social-scheduler/references/mcp-tools.md).
-
-## OpenAI plugin
-
-The separate [OpenAI source package](openai/README.md) uses individually exposed tools at `/mcp/openai`. The configurations below and the repository-root skill continue to use the four-tool `/mcp` connection.
+The current operation map and exact fallbacks are documented in [`mcp-tools.md`](skills/maeve-social-scheduler/references/mcp-tools.md).
 
 ## Package details
 
@@ -178,7 +229,7 @@ The hosted MCP surface exposes four stable tools:
 - `maeve_read` runs read operations.
 - `maeve_write` runs actions that change Maeve or a connected platform.
 
-MCP runs in the hosted backend. The skill uses the connected MCP tools for all Maeve operations.
+The CLI workflows in this package require `maeve-cli >= 0.13.0`. MCP runs in the hosted backend and does not require a CLI installation.
 
 This repository contains no credentials and does not need access to Maeve's private application repositories.
 
@@ -209,6 +260,7 @@ The hosted backend, this repository, and ChatGPT plugin metadata have separate r
 - Website: https://maevesocial.com
 - API documentation: https://api.maevesocial.com/docs
 - Hosted MCP: https://api.maevesocial.com/mcp
+- CLI package: https://www.npmjs.com/package/maeve-cli
 - Support: https://maevesocial.com/contact or `support@maevesocial.com`
 - Privacy policy: https://maevesocial.com/privacy
 - Terms of service: https://maevesocial.com/terms
